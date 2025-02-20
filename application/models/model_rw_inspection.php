@@ -69,7 +69,7 @@ class model_rw_inspection extends CI_Model {
         $query = "SELECT id.*, id.filename AS filename_detail, ic.view_position, 
                  ic.description, ic.mandatory, ins.submited 
           FROM rw_inspection_detail id
-          JOIN rw_variable_test ic ON id.rw_variable_test_id = ic.id
+          JOIN rw_image_category ic ON id.rw_image_category_id = ic.id
           JOIN rw_inspection ins ON id.rw_inspection_id = ins.id 
           WHERE id.rw_inspection_id = '$rw_inspectionid'";
 
@@ -95,13 +95,13 @@ class model_rw_inspection extends CI_Model {
         return $data;
     }
 
-    function rw_inspection_detil_get_byid($rw_inspection_id,$id,$rw_variable_test_id) {
-        $query = "select ins.rw_inspection_date,ins.ebako_code,ins.customer_code,ins.client_name,ins.po_client_no,"
-                . "id.*,id.filename filename_detail,ic.view_position,ic.description,ic.mandatory from rw_inspection ins "
-                . "JOIN rw_inspection_detail id ON ins.id=id.rw_isnpection_id "
-                . " JOIN rw_variable_test ic on id.rw_variable_test_id=ic.id where ins.id='$rw_inspection_id' and id.id=$id";
+    function rw_inspection_detil_get_byid($rw_inspection_id,$id,$rw_image_category_id) {
+        $query = "SELECT id.*, ic.view_position, ic.description, ic.mandatory 
+              FROM rw_inspection_detail id 
+              JOIN rw_image_category ic ON id.rw_image_category_id = ic.id 
+              WHERE id.rw_inspection_id = '$rw_inspectionid'";
 
-        return $this->db->query($query)->result();
+    return $this->db->query($query)->result();
     }
 
     function insert($data) {
@@ -128,10 +128,10 @@ class model_rw_inspection extends CI_Model {
         return $this->db->delete('rw_inspection_detail', $where);
     }
 
-    function select_rw_variable_test_by_rw_inspection_id($rw_inspectionid) {
+    function select_rw_image_category_by_rw_inspection_id($rw_inspectionid) {
        
         $query = "select id.*,ic.view_position,ic.description,ic.mandatory from rw_inspection_detail id "
-                . " JOIN rw_variable_test ic on id.rw_variable_test_id=ic.id where id.rw_isnpection_id='$rw_inspectionid'";
+                . " JOIN rw_image_category ic on id.rw_image_category_id=ic.id where id.rw_inspection_id='$rw_inspectionid'";
         return $this->db->query($query)->result();
     }
     function get_item_po() {

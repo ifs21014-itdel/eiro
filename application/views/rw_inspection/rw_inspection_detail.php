@@ -42,7 +42,7 @@
         if(row.filename==null)
             var temp='no image';
         else
-            var temp = "<img src='files/rw_inspection/" + row.isnpection_id + "/" + row.filename + "' width=50 onclick='rw_inspection_product_view_detail(" + idrow + ")'>";
+            var temp = "<img src='files/rw_inspection/" + row.rw_inspection_id + "/" + row.filename + "' width=50 onclick='rw_inspection_product_view_detail(" + idrow + ")'>";
             //var temp = "<img src='files/rw_inspection/" + row.isnpection_id + "/" + row.filename + "' width=50>" + row.filename;
         return temp;
     }

@@ -1,30 +1,30 @@
-<div id="rw_variable_test_toolbar" style="padding-bottom: 2px;">   
-    <form id="rw_variable_test_search_form" onsubmit="return false" style="margin: 0">
+<div id="rw_image_category_toolbar" style="padding-bottom: 2px;">   
+    <form id="rw_image_category_search_form" onsubmit="return false" style="margin: 0">
         Search : 
         <input type="text" size="20" class="easyui-validatebox" name="q" onkeypress="if (event.keyCode === 13) {
-                    rw_variable_test_search();
+                    rw_image_category_search();
 
                 }"/>
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="rw_variable_test_search()">Find</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-search" plain="true" onclick="rw_image_category_search()">Find</a>
         <?php
         if (in_array("Add", $action)) {
             ?>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="rw_variable_test_add()"> Add</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="rw_image_category_add()"> Add</a>
             <?php
         }if (in_array("Edit", $action)) {
             ?>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="rw_variable_test_edit()"> Edit</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="rw_image_category_edit()"> Edit</a>
             <?php
         }if (in_array("Delete", $action)) {
             ?>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="rw_variable_test_delete()"> Delete</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="rw_image_category_delete()"> Delete</a>
             <?php
         }
         ?>
     </form>
 </div>
-<table id="rw_variable_test" data-options="
-       url:'<?php echo site_url('rw_variable_test/get') ?>',
+<table id="rw_image_category" data-options="
+       url:'<?php echo site_url('rw_image_category/get') ?>',
        method:'post',
        border:true,
        singleSelect:true,
@@ -37,7 +37,7 @@
        remoteSort:true,
        multiSort:true,
        pagination:true,
-       toolbar:'#rw_variable_test_toolbar'">
+       toolbar:'#rw_image_category_toolbar'">
     <thead>
         <tr>
             <th field="id" hidden="true"></th>
@@ -47,9 +47,9 @@
         </tr>
     </thead>
 </table>
-<script rw_variable_test="text/javascript">
+<script rw_image_category="text/javascript">
     $(function () {
-        $('#rw_variable_test').datagrid({
+        $('#rw_image_category').datagrid({
             rowStyler: function(index, row) {
                 if (row.mandatory === 'f') {
                     return 'background-color:#ffff00;';
@@ -61,5 +61,5 @@
         });
     });
 </script>
-<script type="text/javascript" src="<?php echo base_url() ?>js/rw_variable_test.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>js/rw_image_category.js"></script>
 

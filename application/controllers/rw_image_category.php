@@ -6,44 +6,44 @@
  */
 
 /**
- * Description of rw_variable_test
+ * Description of rw_image_category
  *
  * @author hp
  */
-class rw_variable_test extends CI_Controller {
+class rw_image_category extends CI_Controller {
 
     //put your code here
     public function __construct() {
         parent::__construct();
-        $this->load->model('model_rw_variable_test');
+        $this->load->model('model_rw_image_category');
     }
 
     function index() {
         $data['action'] = explode('|', $this->model_user->get_action($this->session->userdata('id'), 80));
-        $this->load->view('Variable Inspection/index', $data);
+        $this->load->view('RW Image Category/index', $data);
     }
 
     function get() {
-        echo $this->model_rw_variable_test->get();
+        echo $this->model_rw_image_category->get();
     }
     function selectall() {
-        echo $this->model_rw_variable_test->selectAllResult();
+        echo $this->model_rw_image_category->selectAllResult();
     }
 
     function input() {
-        $this->load->view('Variable Inspection/input');
+        $this->load->view('RW Image Category/input');
     }
 
     function save() {
-        $this->model_rw_variable_test->insert();
+        $this->model_rw_image_category->insert();
     }
 
     function update($id) {
-        $this->model_rw_variable_test->update($id);
+        $this->model_rw_image_category->update($id);
     }
 
     function delete() {
-        $this->model_rw_variable_test->delete();
+        $this->model_rw_image_category->delete();
     }
 
 }

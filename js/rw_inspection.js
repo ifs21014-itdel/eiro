@@ -19,12 +19,12 @@ function rw_inspection_detail_search() {
 }
 
 function rw_inspection_add() {
-    rw_inspection_input_form('add', 'New rw_inspection');
+    rw_inspection_input_form('add', 'New Inspection');
     rw_inspection_url = base_url + 'rw_inspection/save/0';
 }
 function rw_inspection_edit() {
     var row = $('#rw_inspection').datagrid('getSelected');
-    rw_inspection_input_form('edit', 'New rw_inspection', row);
+    rw_inspection_input_form('edit', 'New Inspection', row);
     rw_inspection_url = base_url + 'rw_inspection/save/' + row.id;
 
 }
@@ -109,7 +109,7 @@ function print_rw_inspection(type) {
         else
             open_target('POST', base_url + 'rw_inspection/print_summary', {id: row.id}, '_blank');
     } else {
-        $.messager.alert('No rw_inspection List Selected', 'Please Select rw_inspection List', 'warning');
+        $.messager.alert('No Inspection List Selected', 'Please Select Inspection List', 'warning');
     }
 }
 
@@ -160,10 +160,11 @@ function rw_inspection_delete() {
 
 function rw_inspection_product_add(idrow) {
     var row = $('#rw_inspection_detail').datagrid('getSelected');
-    //alert (row.isnpection_id);
+    console.log("Selected row:", row);
+    //alert (row.inspection_id);
     if (row !== null) {
-        rw_inspection_input_product_form('add', 'ADD IMAGE', null, row.id, row.isnpection_id,row.image_category_id)
-        rw_inspection_url = base_url + 'rw_inspection/product_save/' + row.isnpection_id + '/' + row.id+'/'+row.image_category_id;
+        rw_inspection_input_product_form('add', 'ADD IMAGE', null, row.id, row.rw_inspection_id,row.rw_image_category_id)
+        rw_inspection_url = base_url + 'rw_inspection/product_save/' + row.rw_inspection_id + '/' + row.id+'/'+row.rw_image_category_id;
     } else {
         $.messager.alert('No Product Selected', 'Please Select Product', 'warning');
     }
@@ -188,7 +189,7 @@ function rw_inspection_product_delete() {
         $.messager.alert('No Purchase Order Product Selected', 'Please Select Purchase Order', 'warning');
     }
 }
-function rw_inspection_product_save(rw_inspection_id, id,image_category_id) {
+function rw_inspection_product_save(rw_inspection_id, id,rw_image_category_id) {
     $('#rw_inspection_product_input_form').form('submit', {
         url: rw_inspection_url,
         onSubmit: function () {
@@ -206,7 +207,7 @@ function rw_inspection_product_save(rw_inspection_id, id,image_category_id) {
     });
 }
 
-function rw_inspection_input_product_form(type, title, row, id, rw_inspection_id,image_category_id) {
+function rw_inspection_input_product_form(type, title, row, id, rw_inspection_id,rw_image_category_id) {
     if ($('#rw_inspection_dialog')) {
         $('#bodydata').append("<div id='rw_inspection_dialog'></div>");
     }
@@ -214,7 +215,7 @@ function rw_inspection_input_product_form(type, title, row, id, rw_inspection_id
         title: title,
         width: 300,
         height: 'auto',
-        href: base_url + 'rw_inspection/product_input/' + rw_inspection_id + '/' + id+ '/' + image_category_id,
+        href: base_url + 'rw_inspection/product_input/' + rw_inspection_id + '/' + id+ '/' + rw_image_category_id,
         modal: true,
         resizable: true,
         overflow: 'auto',
@@ -223,7 +224,7 @@ function rw_inspection_input_product_form(type, title, row, id, rw_inspection_id
                 text: 'Save',
                 iconCls: 'icon-save',
                 handler: function () {
-                    rw_inspection_product_save(rw_inspection_id, id,image_category_id);
+                    rw_inspection_product_save(rw_inspection_id, id,rw_image_category_id);
                 }
             }, {
                 text: 'Close',
@@ -248,7 +249,7 @@ function rw_inspection_product_view_detail(id) {
         title: 'Detail Description',
         width: 300,
         height: 'auto',
-        href: base_url + 'rw_inspection/product_image_detail/' + row.isnpection_id + '/' + id+ '/' + row.image_category_id,
+        href: base_url + 'rw_inspection/product_image_detail/' + row.rw_inspection_id + '/' + id+ '/' + row.rw_image_category_id,
         modal: true,
         resizable: true,
         overflow: 'auto',
@@ -272,7 +273,7 @@ function rw_inspection_submit() {
     var row_rw_inspection_detail = $('#rw_inspection_detail').datagrid('getRows');
     //alert(arr.length); 
     if ((row !== null) && (row_rw_inspection_detail.length>0)){
-        $.messager.confirm('Submit rw_inspection', 'After submited you can not change the rw_inspection anymore<br/><br/><center>Are you sure?</center>', function (r) {
+        $.messager.confirm('Submit Inspection', 'After submited you can not change the Inspection anymore<br/><br/><center>Are you sure?</center>', function (r) {
             if (r) {
                 $.post(base_url + 'rw_inspection/submit', {id: row.id,purchaseorder_item_id:row.purchaseorder_item_id}, function (result) {
                     if (result.success) {
@@ -288,6 +289,6 @@ function rw_inspection_submit() {
             }
         });
     } else {
-        $.messager.alert('rw_inspection Warning', 'No rw_inspection or no item to be submitted', 'warning');
+        $.messager.alert('Inspection Warning', 'No Inspection or no item to be submitted', 'warning');
     }
 }

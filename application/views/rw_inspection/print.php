@@ -95,7 +95,7 @@ $my_pdf->AddPage();
             <td colspan="3" valign="top">
                 <?php echo $result->view_position; ?><br>
                 <?php
-                $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $result->isnpection_id . "/" . $result->filename;
+                $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $result->rw_inspection_id . "/" . $result->filename;
                 echo "<img src='" . $image . "' width='175'>";
                 ?>
             </td>

@@ -6,11 +6,11 @@
  */
 
 /**
- * Description of model_rw_variable_test
+ * Description of model_rw_image_category
  *
  * @author hp
  */
-class model_rw_variable_test extends CI_Model {
+class model_rw_image_category extends CI_Model {
 
     //put your view_position here
     public function __construct() {
@@ -19,7 +19,7 @@ class model_rw_variable_test extends CI_Model {
 
     function select_result() {
         $this->db->order_by("id", 'asc');
-        return $this->db->get('rw_variable_test')->result();
+        return $this->db->get('rw_image_category')->result();
     }
 
     function get() {
@@ -44,7 +44,7 @@ class model_rw_variable_test extends CI_Model {
         } else {
             $order_specification = " id asc";
         }
-        $query = "select * from rw_variable_test where true ";
+        $query = "select * from rw_image_category where true ";
 
         //----------- search parameter for grid ----------------------
         $q = $this->input->post('q');
@@ -69,15 +69,15 @@ class model_rw_variable_test extends CI_Model {
     }
 
     function selectAllResult() {
-        return $this->db->get('rw_variable_test')->result();
+        return $this->db->get('rw_image_category')->result();
     }
 
     function select_by_id($id) {
-        return $this->db->get_where('rw_variable_test', array('id' => $id))->row();
+        return $this->db->get_where('rw_image_category', array('id' => $id))->row();
     }
 
     function insert() {
-        //return $this->db->insert('rw_variable_test', $data);
+        //return $this->db->insert('rw_image_category', $data);
         $view_position = $this->input->post('view_position');
         $description = $this->input->post('description');
 
@@ -86,7 +86,7 @@ class model_rw_variable_test extends CI_Model {
             "description" => $description,
             "mandatory" => $this->input->post('mandatory')
         );
-        if ($this->db->insert('rw_variable_test', $data)) {
+        if ($this->db->insert('rw_image_category', $data)) {
             echo json_encode(array('success' => true));
         } else {
             echo json_encode(array('msg' => $this->db->_error_message()));
@@ -102,7 +102,7 @@ class model_rw_variable_test extends CI_Model {
             "mandatory" => $this->input->post('mandatory')
         );
         $where = array("id" => $id);
-        if ($this->db->update('rw_variable_test', $data, $where)) {
+        if ($this->db->update('rw_image_category', $data, $where)) {
             echo json_encode(array('success' => true));
         } else {
             echo json_encode(array('msg' => $this->db->_error_message()));
@@ -110,10 +110,10 @@ class model_rw_variable_test extends CI_Model {
     }
 
     function delete() {
-        //return $this->db->delete('rw_variable_test', $where);
+        //return $this->db->delete('rw_image_category', $where);
         $id = $this->input->post('id');
         $where = array("id" => $id);
-        if ($this->db->delete('rw_variable_test', $where)) {
+        if ($this->db->delete('rw_image_category', $where)) {
             echo json_encode(array('success' => true));
         } else {
             echo json_encode(array('msg' => $this->db->_error_message()));

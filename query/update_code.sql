@@ -17,43 +17,43 @@ INSERT INTO public.menugroup (id, label, icon, apps_type)
 VALUES (12, 'Raw Material Inspection', 'icon-tracking', 'EIRO');
 
 INSERT INTO public.menu (id, controller, label, menugroupid, icon, actions, apps_type)
-VALUES(821, 'rw_variable_test', 'Variabel Inspection', 12, 'icon_inspection', 'Add|Edit|Delete', 'EIRO');
+VALUES(821, 'rw_image_category', 'Variabel Inspection', 12, 'icon_inspection', 'Add|Edit|Delete', 'EIRO');
 
 INSERT INTO public.menu (id, controller, label, menugroupid, icon, actions, apps_type)
 VALUES(822, 'inspection_list', 'Inspection List', 12, 'icon_inspection', 'Add|Edit|Delete', 'EIRO');
 
 INSERT INTO public.menu (id, controller, label, menugroupid, icon, actions, apps_type)
-VALUES(822, 'inspection_summary', 'Inspection Summary', 12, 'icon_inspection', 'Add|Edit|Delete', 'EIRO');
+VALUES(822, 'rw_inspection_summary', 'RW Inspection Summary', 12, 'icon_inspection', 'Add|Edit|Delete', 'EIRO');
 
 
 
-CREATE SEQUENCE rw_variable_test_id_seq;
+CREATE SEQUENCE rw_image_category_id_seq;
 REATE SEQUENCE _id_seq;
--- Table: public.rw_variable_test
+-- Table: public.rw_image_category
 
--- DROP TABLE public.rw_variable_test;
+-- DROP TABLE public.rw_image_category;
 
-CREATE TABLE public.rw_variable_test
+CREATE TABLE public.rw_image_category
 (
-  id integer NOT NULL DEFAULT nextval('rw_variable_test_id_seq'::regclass),
+  id integer NOT NULL DEFAULT nextval('rw_image_category_id_seq'::regclass),
   view_position character varying(300) NOT NULL,
   description character varying(250),
   mandatory boolean,
-  CONSTRAINT "rw_variable_test: ID must be unique" PRIMARY KEY (id),
-  CONSTRAINT rw_variable_test_code_key UNIQUE (view_position)
+  CONSTRAINT "rw_image_category: ID must be unique" PRIMARY KEY (id),
+  CONSTRAINT rw_image_category_code_key UNIQUE (view_position)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.rw_variable_test
+ALTER TABLE public.rw_image_category
   OWNER TO postgres;
 
--- Index: public.rw_variable_test_id_idx
+-- Index: public.rw_image_category_id_idx
 
--- DROP INDEX public.rw_variable_test_id_idx;
+-- DROP INDEX public.rw_image_category_id_idx;
 
-CREATE INDEX rw_variable_test_id_idx
-  ON public.rw_variable_test
+CREATE INDEX rw_image_category_id_idx
+  ON public.rw_image_category
   USING btree
   (id);
 

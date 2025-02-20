@@ -1,4 +1,4 @@
-<form id="rw_variable_test_input_form" method="post" novalidate class="table_form">
+<form id="rw_image_category_input_form" method="post" novalidate class="table_form">
     <table width="100%" border="0">
         <tr>
             <td width="25%"><strong>View Position</strong></td>

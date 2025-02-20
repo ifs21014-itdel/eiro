@@ -18,7 +18,7 @@ class rw_inspection extends CI_Controller {
         parent::__construct();
         $this->load->model('model_rw_inspection');
         $this->load->model('model_products');
-        $this->load->model('model_rw_variable_test');
+        $this->load->model('model_rw_image_category');
     }
 
     function index() {
@@ -129,65 +129,72 @@ class rw_inspection extends CI_Controller {
 
     //----------
 
-    function product_input($rw_inspection_id, $id, $rw_variable_test_id) {
+    function product_input($rw_inspection_id, $id, $rw_image_category_id) {
         $data = array();
         $data['rw_inspection_id'] = $rw_inspection_id;
         $data['id'] = $id;
-        $data['rw_variable_test_id'] = $rw_variable_test_id;
+        $data['rw_image_category_id'] = $rw_image_category_id;
     
         // Load view tanpa batasan perangkat
         $this->load->view('rw_inspection/input_file', $data);
     }
     
 
-    function product_save($rw_inspectionid, $id, $rw_variable_test_id) {
+    function product_save($rw_inspectionid, $id, $rw_image_category_id) {
+        error_log("Debug: product_save dipanggil dengan rw_inspectionid=$rw_inspectionid, id=$id, rw_image_category_id=$rw_image_category_id");
 
-        $data = array(
-        );
+        $data = array();
         $data['user_added'] = $this->session->userdata('name');
         $data['added_time'] = date("Y-m-d H:i:s");
         $data['user_updated'] = $this->session->userdata('name');
         $data['updated_time'] = date("Y-m-d H:i:s");
+    
         $directory = 'files/rw_inspection/' . $rw_inspectionid;
-
         if (!file_exists($directory)) {
             $oldumask = umask(0);
-            mkdir($directory, 0777); // or even 01777 so you get the sticky bit set
+            mkdir($directory, 0777, true);
             umask($oldumask);
         }
+    
         $allowedImageType = array('jpg', 'png', 'jpeg', 'JPG', 'JPEG', 'PNG');
         $nametemp = 'image-1';
-        $uploadTo = $directory;
-        if (isset($_FILES[$nametemp]['name']))
-            $imageName = $_FILES[$nametemp]['name'];
-        else
-            echo 'please upload file';
+        
+        // Cek apakah file diunggah
+        if (!isset($_FILES[$nametemp])) {
+            error_log("Error: File dengan key '$nametemp' tidak ditemukan di \$_FILES.");
+            return;
+        }
+    
+        if ($_FILES[$nametemp]['error'] !== UPLOAD_ERR_OK) {
+            error_log("Upload error: " . $_FILES[$nametemp]['error']);
+            return;
+        }
+    
+        $imageName = $_FILES[$nametemp]['name'];
         $tempPath = $_FILES[$nametemp]["tmp_name"];
-        //$basename = basename($imageName);
-
         $imageType = pathinfo($imageName, PATHINFO_EXTENSION);
-
-        $basename = $id . '-' . $rw_inspectionid . '-' . $rw_variable_test_id . "." . $imageType; // 5dab1961e93a7_1571494241.jpg
+    
+        if (!in_array($imageType, $allowedImageType)) {
+            error_log("Error: Tipe file '$imageType' tidak diperbolehkan.");
+            return;
+        }
+    
+        $basename = $id . '-' . $rw_inspectionid . '-' . $rw_image_category_id . "." . $imageType;
         $originalPath = $directory . '/' . $basename;
-        if (!empty($imageName)) {
-            if (in_array($imageType, $allowedImageType)) {
-                // Upload file to server 
-                if (move_uploaded_file($tempPath, $originalPath)) {
-                    // echo $nametemp . " was uploaded successfully";
-                    $data['filename'] = $basename;
-                    if ($this->model_rw_inspection->product_update($data, array("id" => $id))) {
-                        echo json_encode(array('success' => true));
-                    } else {
-                        echo json_encode(array('msg' => $this->db->_error_message()));
-                    }
-                } else {
-                    echo 'image Not uploaded ! try again';
-                }
+    
+        if (move_uploaded_file($tempPath, $originalPath)) {
+            $data['filename'] = $basename;
+            if ($this->model_rw_inspection->product_update($data, array("id" => $id))) {
+                echo json_encode(array('success' => true));
             } else {
-                echo $imageType . " image type not allowed";
+                error_log("Database update error: " . $this->db->_error_message());
             }
+        } else {
+            error_log("Error: Gagal mengupload file ke '$originalPath'.");
         }
     }
+    
+    
 
     function product_delete() {
         $id = $this->input->post('id');
@@ -202,7 +209,7 @@ class rw_inspection extends CI_Controller {
         $id = $this->input->post('id');
         $this->load->library('pdf');
         $data['rw_inspection'] = $this->model_rw_inspection->select_by_id($id);
-        $data['rw_inspection_detail'] = $this->model_rw_inspection->select_rw_variable_test_by_rw_inspection_id($id);
+        $data['rw_inspection_detail'] = $this->model_rw_inspection->select_rw_image_category_by_rw_inspection_id($id);
         //--------- UNtuk EXCEL ----
         /*
           header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
@@ -227,8 +234,8 @@ class rw_inspection extends CI_Controller {
         $this->load->view('shipment/print_summary', $data);
     }
 
-    function product_image_detail($rw_inspection_id, $id, $rw_variable_test_id) {
-        $data['ins_detail'] = $this->model_rw_inspection->rw_inspection_detil_get_byid($rw_inspection_id, $id, $rw_variable_test_id);
+    function product_image_detail($rw_inspection_id, $id, $rw_image_category_id) {
+        $data['ins_detail'] = $this->model_rw_inspection->rw_inspection_detil_get_byid($rw_inspection_id, $id, $rw_image_category_id);
         // var_dump($data);
         $this->load->view('rw_inspection/show_detail', $data);
     }
