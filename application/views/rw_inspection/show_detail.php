@@ -14,7 +14,7 @@
         <tr><td>Description</td><td><?php echo $ins_detail[0]->description; ?></td></tr>
         <tr><td colspan="2" align="center">
                 <?php
-                $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $ins_detail[0]->isnpection_id . "/" . $ins_detail[0]->filename;
+                $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $ins_detail[0]->rw_inspection_id . "/" . $ins_detail[0]->filename;
                 echo "<img src='" . $image . "' width='100%'>";
                 ?>
             </td>

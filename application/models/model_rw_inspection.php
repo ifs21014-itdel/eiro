@@ -95,14 +95,19 @@ class model_rw_inspection extends CI_Model {
         return $data;
     }
 
-    function rw_inspection_detil_get_byid($rw_inspection_id,$id,$rw_image_category_id) {
-        $query = "SELECT id.*, ic.view_position, ic.description, ic.mandatory 
-              FROM rw_inspection_detail id 
-              JOIN rw_image_category ic ON id.rw_image_category_id = ic.id 
-              WHERE id.rw_inspection_id = '$rw_inspectionid'";
-
-    return $this->db->query($query)->result();
+    function rw_inspection_detil_get_byid($rw_inspection_id, $id, $rw_image_category_id) {
+        $query = "SELECT ins.rw_inspection_date, ins.ebako_code, ins.customer_code, ins.client_name, ins.po_client_no,
+                         id.*, id.filename AS filename_detail, ic.view_position, ic.description, ic.mandatory 
+                  FROM rw_inspection ins
+                  JOIN rw_inspection_detail id ON ins.id = id.rw_inspection_id
+                  JOIN rw_image_category ic ON id.rw_image_category_id = ic.id 
+                  WHERE ins.id = $rw_inspection_id 
+                  AND id.id = $id
+                  AND id.rw_image_category_id = $rw_image_category_id";
+    
+        return $this->db->query($query)->result();
     }
+    
 
     function insert($data) {
         return $this->db->insert('rw_inspection', $data);

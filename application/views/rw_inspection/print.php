@@ -1,115 +1,130 @@
 <?php
-//echo phpinfo();
-//exit();
 $my_pdf = new Pdf();
 $my_pdf->setPageOrientation('P', true, 2);
 $my_pdf->SetCompression(true);
 $my_pdf->setPrintHeader(true);
 $my_pdf->setPrintFooter(false);
-$my_pdf->SetMargins(2, 2, 2);
+$my_pdf->SetMargins(10, 10, 10); // Memberikan margin agar tidak terlalu mepet
 $my_pdf->SetFont('', '', 7);
 $my_pdf->AddPage();
 ?>
+
 <head>
     <style>
         table {
             page-break-inside: auto;
+            border-collapse: collapse;
+            width: 90%; /* Memberikan ruang margin */
+            margin: 20px auto; /* Menambahkan margin kiri, kanan, dan atas */
         }
-        tr {
-            page-break-inside: avoid;
-            page-break-after: auto;
+        th, td {
+            border: 1px solid black;
+            padding: 10px; /* Padding agar konten tidak terlalu mepet */
+            text-align: center;
         }
-        thead {
-            display: table-header-group;
+        th {
+            background-color: #ffff99;
         }
-        tfoot {
-            display: table-footer-group;
+        .bold {
+            font-weight: bold;
+        }
+        .inspection-img {
+            width: 175px;
+            height: 120px;
+            object-fit: cover;
+            padding: 5px;
+        }
+        .desc {
+            text-align: left;
+            vertical-align: top;
+            padding: 10px;
         }
     </style>
 </head>
-<table border="1" cellpadding="0" cellspacing="0" > REPORT ONLINE  (EIRO)</h2></th>
-</tr>
-<tr>
-<thead>
-<th bgcolor='#ffffcc' colspan="6"><h2>EBAKO rw_inspection
+
+<table border="1" cellpadding="5" cellspacing="5">
+    <thead>
         <tr>
-            <th bgcolor='#ffff99' colspan="6">END FINAL AREA</th>
+            <th colspan="6" class="bold"><h2>REPORT ONLINE (EIRO)</h2></th>
         </tr>
         <tr>
-            <td colspan="3"><font face='courier' size='2'>
-                PT EBAKO NUSANTARA <br>
-                Jl. Terboyo Industri Barat Dalam II Blok N/3C<br>
-                Kawasan Industri Terboyo Park - Semarang <br>
-                Jawa Tengah - Indonesia</font>
+            <th colspan="6" class="bold">EBAKO RW INSPECTION</th>
+        </tr>
+        <tr>
+            <th colspan="6" class="bold">END FINAL AREA</th>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <font face='courier' size='2'>
+                    PT EBAKO NUSANTARA <br>
+                    Jl. Terboyo Industri Barat Dalam II Blok N/3C<br>
+                    Kawasan Industri Terboyo Park - Semarang <br>
+                    Jawa Tengah - Indonesia
+                </font>
             </td>
-            <td colspan="3" align='center' width='50%'>
+            <td colspan="3">
                 <?php
                 $image = $_SERVER["HTTP_REFERER"] . 'files/logo.png';
                 echo "<img src='" . $image . "' width='100'>";
                 ?>
             </td>
         </tr>
-        </thead>
+    </thead>
 
-        <tbody>
-            <tr>
-                <td width='20%'>Customer</td>
-                <td width='2%' align='center'>:</td>
-                <td width='30%'><?php echo $rw_inspection->client_name; ?></td>
-                <td width='20%'>Po Client No</td>
-                <td width='2%' align='center'>:</td>
-                <td width='30%'><?php echo $rw_inspection->po_client_no; ?></td>
-            </tr>
-            <tr>
-                <td width='20%'>Cust. Code</td>
-                <td width='2%' align='center'>:</td>
-                <td width='20%'><?php echo $rw_inspection->customer_code; ?></td>
-                <td width='20%'>rw_inspection Date</td>
-                <td width='2%' align='center'>:</td>
-                <td width='20%'><?php echo date('d F Y', strtotime($rw_inspection->rw_inspection_date)); ?></td>
-            </tr>
-            <tr>
-                <td width='20%'>Ebako Code</td>
-                <td width='2%' align='center'>:</td>
-                <td width='20%'><?php echo $rw_inspection->ebako_code; ?></td>
-                <td width='20%'>Inspector</td>
-                <td width='2%' align='center'>:</td>
-                <td width='20%'><?php echo $rw_inspection->user_added; ?></td>
-            </tr>
-            <tr>
-                <th bgcolor='#ffff99' colspan="6">rw_inspection DOCUMENTATION</th>
-            </tr>
-            <?php
-            $x = 0;
-            foreach ($rw_inspection_detail as $result) {
-                if($result->filename==null)
-                    continue;
+    <tbody>
+        <tr>
+            <td width='20%'>Customer</td>
+            <td width='2%'>:</td>
+            <td width='30%'><?php echo $rw_inspection->client_name; ?></td>
+            <td width='20%'>PO Client No</td>
+            <td width='2%'>:</td>
+            <td width='30%'><?php echo $rw_inspection->po_client_no; ?></td>
+        </tr>
+        <tr>
+            <td>Cust. Code</td>
+            <td>:</td>
+            <td><?php echo $rw_inspection->customer_code; ?></td>
+            <td>RW Inspection Date</td>
+            <td>:</td>
+            <td><?php echo date('d F Y', strtotime($rw_inspection->rw_inspection_date)); ?></td>
+        </tr>
+        <tr>
+            <td>Ebako Code</td>
+            <td>:</td>
+            <td><?php echo $rw_inspection->ebako_code; ?></td>
+            <td>Inspector</td>
+            <td>:</td>
+            <td><?php echo $rw_inspection->user_added; ?></td>
+        </tr>
 
-                $x++;
-                //echo $result->view_position . "<br>";
-                //echo 'x='.$x.' dan '.$x.'%2='.($x%2)."<br>";
-                if (($x % 2) == 1) {
-                    echo "<tr align=center>";
-                }
-                ?>
-            <td colspan="3" valign="top">
-                <?php echo $result->view_position; ?><br>
-                <?php
-                $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $result->rw_inspection_id . "/" . $result->filename;
-                echo "<img src='" . $image . "' width='175'>";
-                ?>
-            </td>
-            <?php
-            if ($x % 2 == 0) {
-                echo "</tr>";
+        <tr>
+            <th colspan="6" class="bold">RW INSPECTION DOCUMENTATION</th>
+        </tr>
+
+        <?php
+        foreach ($rw_inspection_detail as $result) {
+            if ($result->filename == null) {
+                continue;
             }
-        }
         ?>
-        </tbody>
+            <tr>
+                <td colspan="3" class="center">
+                    <b><?php echo $result->view_position; ?></b><br>
+                    <?php
+                    $image = $_SERVER["HTTP_REFERER"] . 'files/rw_inspection/' . $result->rw_inspection_id . "/" . $result->filename;
+                    echo "<img src='" . $image . "' class='inspection-img'>";
+                    ?>
+                </td>
+                <td colspan="3" class="desc">
+                    <?php echo nl2br($result->description); ?>
+                </td>
+            </tr>
+        <?php } ?>
+    </tbody>
 </table>
+
 <?php
 //$my_pdf->writeHTML($tbl, true, false, true, false, '');
 //$file_name = $shipment->shipment_no . '.pdf';
 //$my_pdf->Output($file_name, 'D');
 ?>
-
